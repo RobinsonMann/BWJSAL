@@ -14,7 +14,7 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * BwtaWrapper is a wrapper for the entirely BWTA class.
+ * BwtaWrapper is a wrapper for the entirely static BWTA class.
  *
  * This class is useful if you want to easily mock responses from BWTA.
  */
