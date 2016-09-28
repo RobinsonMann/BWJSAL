@@ -1,15 +1,20 @@
-Broodwar Java Standard Addon Library
+# Broodwar Java Standard Addon Library
 
-This project is mostly a Java clone of the C++ BWSAL project.
+## About
 
-Deviations from existing BWSAL code:
-    - Managers are no longer singletons
-    - All classes that used the static Game instance Broodwar now has the game instance injected
+This project is (mostly) a Java clone of the C++ [BWSAL](https://github.com/Fobbah/bwsal) project.
 
-Dependencies:
-    bwmirror-2.5
+## API deviations from BWSAL
 
-Testing Dependencies:
-    assertj-core-3.5.2 - Assertion framework
-    junit-4.12 - Testing frameworks
-    mockito-all-1.10.19 - Mock framework
+	- Managers are now individual instances, instead of being signletons.
+	- All classes that used the static Game instance Broodwar now used an instance of Game that is passed in via the consturctor.
+
+## Dependencies
+
+	- [bwmirror](https://github.com/vjurenka/BWMirror)
+
+## Testing Dependencies
+
+	- assertj-core-3.5.2 - Assertion framework
+	- junit-4.12 - Testing frameworks
+	- mockito-all-1.10.19 - Mock framework
