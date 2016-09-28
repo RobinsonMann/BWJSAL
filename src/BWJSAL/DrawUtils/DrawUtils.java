@@ -15,7 +15,7 @@ public class DrawUtils {
     private static final int PIXELS_IN_TILES = 32;
 
     /*
-     * Tile divides are the 'fence posts' of tiles.
+     * Tile dividers are the 'fence posts' of tiles.
      * I.e. for a base
      *   Dividers
      *   | | | |
@@ -27,7 +27,7 @@ public class DrawUtils {
     // Bases have a 3 tile width, therefore there is 4 dividers.
     private static final int BASE_WIDTH_TILE_DIVIDER_COUNT = 4;
 
-    // Bases have a 2 tile width, therefore there is 4 dividers;.
+    // Bases have a 2 tile width, therefore there is 3 dividers;.
     private static final int BASE_HEIGHT_TILE_DIVIDER_COUNT = 3;
 
     private Game game;
