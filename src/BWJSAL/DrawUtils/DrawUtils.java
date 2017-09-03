@@ -4,6 +4,7 @@ import bwapi.Color;
 import bwapi.CoordinateType.Enum;
 import bwapi.Game;
 import bwapi.TilePosition;
+import bwapi.Position;
 import bwapi.Unit;
 import bwta.BaseLocation;
 
@@ -27,8 +28,16 @@ public class DrawUtils {
     // Bases have a 3 tile width, therefore there is 4 dividers.
     private static final int BASE_WIDTH_TILE_DIVIDER_COUNT = 4;
 
-    // Bases have a 2 tile width, therefore there is 3 dividers.
+    // Bases have a 2 tile height, therefore there is 3 dividers.
     private static final int BASE_HEIGHT_TILE_DIVIDER_COUNT = 3;
+
+    private static final int PROGRESS_BAR_WIDTH = 20;
+
+    private static final int PROGRESS_BAR_HEIGHT = 4;
+
+    private static final Color PROGRESS_BAR_OUTLINE_COLOR = Color.Blue;
+
+    private static final Color PROGRESS_BAR_BACKGROUND_COLOR = new Color(0, 0, 170);
 
     private Game game;
 
@@ -47,7 +56,7 @@ public class DrawUtils {
      * Highlights the give base location by drawing a box around it
      */
     public void highlightBaseLocation(final BaseLocation baseLocation, final Color boxColor) {
-        TilePosition baseTilePosition = baseLocation.getTilePosition();
+        final TilePosition baseTilePosition = baseLocation.getTilePosition();
         game.drawBox(Enum.Map,
                      baseTilePosition.getX() * PIXELS_IN_TILES,
                      baseTilePosition.getY() * PIXELS_IN_TILES,
@@ -55,5 +64,32 @@ public class DrawUtils {
                      baseTilePosition.getY() * PIXELS_IN_TILES + BASE_HEIGHT_TILE_DIVIDER_COUNT * PIXELS_IN_TILES,
                      boxColor,
                      false);
+    }
+
+    public void drawProgressBar(final Position position, final double progressFraction, final Color innerBarColor) {
+        final int xLeft = position.getX() - PROGRESS_BAR_WIDTH / 2;
+        final int xRight = position.getX() + PROGRESS_BAR_WIDTH / 2;
+        final int yBottom = position.getY() - PROGRESS_BAR_HEIGHT / 2;
+        final int yTop = position.getY() + PROGRESS_BAR_HEIGHT / 2;
+
+        // draw outline top
+        game.drawLineMap(xLeft + 1, yTop, xRight - 1, yTop, PROGRESS_BAR_OUTLINE_COLOR);
+
+        // draw outline bottom
+        game.drawLineMap(xLeft + 1, yBottom, xRight - 1, yBottom, PROGRESS_BAR_OUTLINE_COLOR);
+
+        // draw outline left
+        game.drawLineMap(xLeft, yTop + 1, xLeft, yBottom, PROGRESS_BAR_OUTLINE_COLOR);
+
+        // draw outline right
+        game.drawLineMap(xRight - 1, yTop + 1, xRight - 1, yBottom, PROGRESS_BAR_OUTLINE_COLOR);
+
+        // draw bar background
+        game.drawBoxMap(xLeft + 1, yTop + 1, xRight - 1, yBottom, PROGRESS_BAR_BACKGROUND_COLOR, true);
+
+        //Draw progress bar
+        final int innerWidth = (xRight - 1) - (xLeft + 1);
+        final int progressWidth = (int) (progressFraction * innerWidth);
+        game.drawBoxMap(xLeft + 1, yTop + 1, xLeft + 1 + progressWidth, yBottom, innerBarColor, true);
     }
 }
