@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project name="bwjsal" default="build.release" basedir=".">
+
+    <!-- Definitions -->
+
+    <property name="src.dir" value="src/"/>
+    <property name="tst.dir" value="tst/"/>
+    <property name="lib.dir" value="lib/"/>
+    <property name="base.output.dir" value="bin/"/>
+    <property name="release.output.dir" value="bin/release/"/>
+    <property name="debug.output.dir" value="bin/debug/"/>
+
+    <path id="compile.path">
+        <path path="${src.dir}"/>
+        <fileset dir="${lib.dir}"/>       
+    </path>
+
+    <path id="compile.test.path">
+        <path refid="compile.path"/>
+        <pathelement path="${tst.dir}"/>
+        <!-- Includes all src compiled classes -->
+        <pathelement path="${debug.output.dir}"/>
+    </path>
+
+    <property name="test.class.format" value="**/*Test.class"/>
+
+    <!-- Targets -->
+
+    <target name="clean">
+        <delete dir="${base.output.dir}"/>
+    </target>
+
+    <target name="setup">
+        <mkdir dir="${base.output.dir}"/>
+        <mkdir dir="${release.output.dir}"/>
+        <mkdir dir="${debug.output.dir}"/>
+    </target>
+
+    <target name="build.release" depends="setup">
+        <javac srcdir="${src.dir}"
+               destdir="${release.output.dir}"
+               includeantruntime="false"
+               classpathref="compile.path"/>
+    </target>
+
+    <target name="build.debug" depends="setup">
+        <javac srcdir="${src.dir}"
+               destdir="${debug.output.dir}"
+               includeantruntime="false"
+               classpathref="compile.path"
+               debug="true"/>
+    </target>
+
+    <target name="build.test" depends="build.debug">
+        <javac srcdir="${tst.dir}"
+               destdir="${debug.output.dir}"
+               includeantruntime="false"
+               classpathref="compile.test.path"
+               debug="true"/>
+    </target>
+
+    <target name="test" depends="build.test">
+        <junit fork="true" haltonfailure="no">
+            <classpath refid="compile.test.path"/>
+            <formatter type="plain" usefile="false"/>
+            <batchtest>
+                <fileset dir="${debug.output.dir}">
+                    <include name="${test.class.format}"/>
+                </fileset>
+            </batchtest>
+        </junit>
+    </target>
+</project>
