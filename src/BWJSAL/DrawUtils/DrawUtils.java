@@ -66,6 +66,12 @@ public class DrawUtils {
                      false);
     }
 
+    public void highlightIslandBaseLocation(final BaseLocation baseLocation, final Color islandHighlightColor)
+    {
+        final Position basePosition = baseLocation.getPosition();
+        game.drawCircle(Enum.Map, basePosition.getX(), basePosition.getY(), 80, islandHighlightColor, false);
+    }
+
     public void drawProgressBar(final Position position, final double progressFraction, final Color innerBarColor) {
         final int xLeft = position.getX() - PROGRESS_BAR_WIDTH / 2;
         final int xRight = position.getX() + PROGRESS_BAR_WIDTH / 2;

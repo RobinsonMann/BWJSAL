@@ -14,6 +14,7 @@ public class EnhancedUi {
 
     private static final Color MINERAL_CIRCLE_COLOR = Color.Cyan;
     private static final Color BASE_BOX_COLOR = Color.Blue;
+    private static final Color BASE_ISLAND_COLOR = Color.Yellow;
 
     private DrawUtils drawUtils;
     private BwtaWrapper bwtaWrapper;
@@ -44,7 +45,10 @@ public class EnhancedUi {
 
             // TODO: Draw Geysers
 
-            // TODO: Highlight if base is island expansion
+            // Draw a yellow circle around the base location if it is an island expansion
+            if (baseLocation.isIsland()) {
+                drawUtils.highlightIslandBaseLocation(baseLocation, BASE_ISLAND_COLOR);
+            }
         }
     }
 
