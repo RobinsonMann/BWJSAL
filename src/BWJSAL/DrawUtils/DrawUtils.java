@@ -52,6 +52,16 @@ public class DrawUtils {
         game.drawCircle(Enum.Map, mineral.getX(), mineral.getY(), 30, circleColor, false);
     }
 
+    public void highlightGeyser(final Unit geyser, final Color highlightColor) {
+        game.drawBox(Enum.Map,
+                     geyser.getX() * 32,
+                     geyser.getY() * 32,
+                     (geyser.getX() + 4) * 32,
+                     (geyser.getY() + 2) * 32,
+                     highlightColor,
+                     false);
+    }
+
     /**
      * Highlights the give base location by drawing a box around it
      */

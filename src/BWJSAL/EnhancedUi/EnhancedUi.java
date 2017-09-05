@@ -15,6 +15,7 @@ public class EnhancedUi {
     private static final Color MINERAL_CIRCLE_COLOR = Color.Cyan;
     private static final Color BASE_BOX_COLOR = Color.Blue;
     private static final Color BASE_ISLAND_COLOR = Color.Yellow;
+    private static final Color GEYSER_COLOR = Color.Orange;
 
     private DrawUtils drawUtils;
     private BwtaWrapper bwtaWrapper;
@@ -43,7 +44,11 @@ public class EnhancedUi {
                 drawUtils.highlightMineralField(mineral, MINERAL_CIRCLE_COLOR);
             }
 
-            // TODO: Draw Geysers
+            // Highlight vespene geysers
+            for (Unit geyser : baseLocation.getGeysers())
+            {
+                drawUtils.highlightGeyser()
+            }
 
             // Draw a yellow circle around the base location if it is an island expansion
             if (baseLocation.isIsland()) {
