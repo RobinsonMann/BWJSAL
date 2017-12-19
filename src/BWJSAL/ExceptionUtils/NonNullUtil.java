@@ -8,7 +8,16 @@ package BWJSAL.ExceptionUtils;
 public class NonNullUtil {
     public static void nonNull(final Object object, final String objectName) {
         if (object == null) {
-            throw new NullPointerException(String.format("%s is required to be non-null", objectName));
+            throw new NullPointerException(String.format("%s is required to be non-null.",
+                                                         objectName));
+        }
+    }
+
+    public static void nonNull(final Object object, final String objectName, final String additionalInformation) {
+        if (object == null) {
+            throw new NullPointerException(String.format("%s is required to be non-null. %s",
+                                                         objectName,
+                                                         additionalInformation));
         }
     }
 }
