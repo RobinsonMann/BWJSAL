@@ -6,8 +6,8 @@ This project is (mostly) a Java clone of the C++ [BWSAL](https://github.com/Fobb
 
 ## API deviations from BWSAL
 
-	- Managers are now individual instances, instead of being signletons.
-	- All classes that used the static Game instance Broodwar now used an instance of Game that is passed in via the consturctor.
+	- Singleton concept is removed. Every class can be created arbitrary number of times.
+	- Static usage has been replaced with constructor provided instances.
 
 ## Building and running tests
 
