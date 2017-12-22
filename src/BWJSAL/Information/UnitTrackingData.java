@@ -7,8 +7,6 @@ import bwapi.UnitType;
 
 /**
  * Simple class used to track the latest information related to a unit.
- *
- * This is used internally of InformationManager. On every frame every existing unit will be updated.
  */
 class UnitTrackingData {
     /**
@@ -34,7 +32,7 @@ class UnitTrackingData {
     /**
      * Frame count from when this unit was last seen.
      */
-    private Integer lastSeenFrameCount;
+    private Integer lastSeenTime;
 
     /**
      * Update to latest information about unit.
@@ -47,7 +45,12 @@ class UnitTrackingData {
         this.type = unit.getType();
         this.player = unit.getPlayer();
         this.exists = unit.exists();
-        this.lastSeenFrameCount = lastSeenFrameCount;
+        this.lastSeenTime = lastSeenFrameCount;
+    }
+
+    public void unitDestroyed(final Unit unit, final int lastSeenFrameCount) {
+        update(unit, lastSeenFrameCount);
+        this.exists = false;
     }
 
     public Position getPosition() {
@@ -62,8 +65,8 @@ class UnitTrackingData {
         return player;
     }
 
-    public Integer getLastSeenFrameCount() {
-        return lastSeenFrameCount;
+    public Integer getLastSeenTime() {
+        return lastSeenTime;
     }
 
     public boolean doesUnitExist() {
