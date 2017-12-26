@@ -2,7 +2,11 @@
 
 ## About
 
-This project is (mostly) a Java clone of the C++ [BWSAL](https://github.com/Fobbah/bwsal) project.
+The goal of this project is to enable developers to quickly dive into creating a Java Broodwar bot without the need to create the infrastructure that most bots will need. 
+
+This project is (mostly) a Java clone of the C++ [BWSAL](https://github.com/Fobbah/bwsal) project. Where possible, everything in this library tries to be comptatible with the API interfaces of the original BWSAL. In addition to the original classes and methods provided by the original BWSAL, additional functionality has been included. 
+
+It is currently under development and as of now, nothing is  project is currently under development and nothing is 
 
 ## API deviations from BWSAL
 
