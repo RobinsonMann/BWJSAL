@@ -13,6 +13,7 @@ import org.mockito.Mockito;
 import java.util.HashMap;
 import java.util.Map;
 
+import static BWJSAL.utils.RaceUtils.createMockRace;
 import static BWJSAL.utils.StaticFinalUtils.setStaticFinalField;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
@@ -146,13 +147,6 @@ public class BuildTimeTrackerTest {
         setupUnitTypes();
         assertThatThrownBy(() -> this.target.getBuildTime(UnitType.Protoss_Dragoon))
                 .hasMessage("Enemy has not built unitType Protoss_Dragoon");
-    }
-
-    private Race createMockRace(final UnitType center, final UnitType worker) {
-        final Race mockRace = Mockito.mock(Race.class);
-        when(mockRace.getCenter()).thenReturn(center);
-        when(mockRace.getWorker()).thenReturn(worker);
-        return mockRace;
     }
 
     private void setEnemyRace(final Race race) {
