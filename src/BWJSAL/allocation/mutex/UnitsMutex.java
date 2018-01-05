@@ -83,6 +83,8 @@ public class UnitsMutex {
      * @return Returns true if locks were acquired for all of the units, false otherwise.
      */
     public synchronized boolean lockUnits(final Iterable<Unit> units) {
+        nonNull(units, "units");
+
         final Set<Unit> unitsWhereLockedAcquired = new HashSet<Unit>();
 
         for (final Unit unitToLock : units) {
