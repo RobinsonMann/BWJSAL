@@ -78,6 +78,29 @@ public class UnitsMutex {
     }
 
     /**
+     * Attempts to lock all of the given unit.
+     * @param units Units to lock.
+     * @return Returns true if locks were acquired for all of the units, false otherwise.
+     */
+    public synchronized boolean lockUnits(final Iterable<Unit> units) {
+        final Set<Unit> unitsWhereLockedAcquired = new HashSet<Unit>();
+
+        for (final Unit unitToLock : units) {
+            if (lockUnit(unitToLock)) {
+                // Acquired lock.
+                unitsWhereLockedAcquired.add(unitToLock);
+            } else {
+                // Failed to get lock.  Rollback all acquired unit locks and return that we have failed.
+                unlockUnits(unitsWhereLockedAcquired);
+                return false;
+            }
+        }
+
+        // all locks acquired, return success.
+        return true;
+    }
+
+    /**
      * Unlocks the given unit. If the unit is unlocked, it will remain unlocked on completion.
      * @param unit Unit to unlock.
      */
@@ -85,5 +108,17 @@ public class UnitsMutex {
         nonNull(unit, "unit", "Cannot unlock null unit.");
 
         this.lockedUnits.remove(unit);
+    }
+
+    /**
+     * Unlocks all of the given units. If any units where previously unlocked, they will remain unlocked on completion.
+     * @param units Units to unlock.
+     */
+    public synchronized void unlockUnits(final Iterable<Unit> units) {
+        nonNull(units, "units");
+
+        for (final Unit unitToUnlock : units) {
+            unlockUnit(unitToUnlock);
+        }
     }
 }
