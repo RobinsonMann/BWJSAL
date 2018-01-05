@@ -10,7 +10,8 @@ It is currently under development and as of now, nothing is  project is currentl
 
 ## API deviations from BWSAL
 
-	- Singleton concept is removed. Every class can be created arbitrary number of times.
+	- Classes are no longer singletons. Every class can be created arbitrary number of times. Classes that were 
+	  previously singletons are annotated with @Singleton and have their constructors annotated with @Inject. 
 	- Static usage has been replaced with constructor provided instances.
 
 ## Building and running tests
