@@ -2,6 +2,7 @@ package BWJSAL.Information;
 
 import BWJSAL.event.listener.OnStartListener;
 import bwapi.Game;
+import bwapi.Player;
 import bwapi.Race;
 import bwapi.Unit;
 import bwapi.UnitType;
@@ -17,6 +18,8 @@ public class BuildTimeTracker implements OnStartListener {
     private final Game game;
     private final Map<UnitType, Integer> earliestBuildTime;
 
+    private Player self;
+
     public BuildTimeTracker(final Game game) {
         this.game = game;
         this.earliestBuildTime = new HashMap<>();
@@ -25,6 +28,7 @@ public class BuildTimeTracker implements OnStartListener {
     @Override
     public void onStart() {
         buildTimesForStartingUnits();
+        this.self = this.game.self();
     }
 
     /**
@@ -101,7 +105,7 @@ public class BuildTimeTracker implements OnStartListener {
     }
 
     public void onUnitDiscover(final Unit unit, final Integer time) {
-        if (this.game.self().isEnemy(unit.getPlayer())) {
+        if (this.self.isEnemy(unit.getPlayer())) {
             final UnitType unitType = unit.getType();
             updateBuildTime(unitType, time - unitType.buildTime());
         }

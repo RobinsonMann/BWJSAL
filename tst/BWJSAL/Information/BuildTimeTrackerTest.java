@@ -81,6 +81,9 @@ public class BuildTimeTrackerTest {
      */
     @Test
     public void onUnitDiscovery_requiredUnitsNotPreviouslyObserved_requiredUnitBuildTimesSetCorrectly() {
+        setEnemyRace(createMockRace(UnitType.Protoss_Nexus, UnitType.Protoss_Probe));
+        this.target.onStart();
+
         final int currentGameTime = 1000;
         final int dragoonBuildTime = 50;
         final int cyberneticsCoreBuildTime = 100;
@@ -107,6 +110,9 @@ public class BuildTimeTrackerTest {
 
     @Test
     public void onUnitDiscovery_previouslyObservedUnit_observedBuildTimeNewer_buildTimeNotUpdated() {
+        setEnemyRace(createMockRace(UnitType.Protoss_Nexus, UnitType.Protoss_Probe));
+        this.target.onStart();
+
         final int firstGameTime = 1000;
         final int secondGameTime = 10000;
         this.target.onUnitDiscover(UnitBuilder.mockUnit(UnitType.Protoss_Gateway, this.mockEnemy), firstGameTime);
@@ -168,7 +174,8 @@ public class BuildTimeTrackerTest {
         modifyUnitTypeToMock("Zerg_Overlord", new HashMap<>());
 
         modifyUnitTypeToMock("Protoss_Nexus", new HashMap<>());
-        modifyUnitTypeToMock("Protoss_Pylon", new HashMap<>());
+        modifyUnitTypeToMock("Protoss_Probe", Maps.newHashMap(UnitType.Protoss_Nexus, 1));
+        modifyUnitTypeToMock("Protoss_Pylon", Maps.newHashMap(UnitType.Protoss_Probe, 1));
         modifyUnitTypeToMock("Protoss_Gateway", Maps.newHashMap(UnitType.Protoss_Pylon, 1));
         modifyUnitTypeToMock("Protoss_Cybernetics_Core", Maps.newHashMap(UnitType.Protoss_Gateway, 1));
         modifyUnitTypeToMock("Protoss_Dragoon", Maps.newHashMap(UnitType.Protoss_Cybernetics_Core, 1));
