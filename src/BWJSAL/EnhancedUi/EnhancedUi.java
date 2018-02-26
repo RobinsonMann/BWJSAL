@@ -1,7 +1,6 @@
 package BWJSAL.EnhancedUi;
 
-import BWJSAL.BWJSAL;
-import BWJSAL.BwtaWrapper.BwtaWrapper;
+import BWJSAL.bwta.BwtaWrapper;
 import BWJSAL.DrawUtils.DrawUtils;
 import bwapi.Color;
 import bwapi.Position;
@@ -47,7 +46,7 @@ public class EnhancedUi {
             // Highlight vespene geysers
             for (Unit geyser : baseLocation.getGeysers())
             {
-                drawUtils.highlightGeyser()
+               drawUtils.highlightGeyser(geyser, GEYSER_COLOR);
             }
 
             // Draw a yellow circle around the base location if it is an island expansion

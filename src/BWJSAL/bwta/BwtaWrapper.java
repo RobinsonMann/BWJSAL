@@ -1,4 +1,4 @@
-package BWJSAL.BwtaWrapper;
+package BWJSAL.bwta;
 
 import bwapi.Pair;
 import bwapi.Player;
