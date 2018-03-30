@@ -3,7 +3,7 @@ package BWJSAL.event.listener;
 import bwapi.Unit;
 
 /**
- * The listener interface for receiving notification of game onUnitMorph events.
+ * The listener interface for receiving bot.notification of game onUnitMorph events.
  * Any classes that are interested in monitoring onUnitMorph events should implement this interface.
  */
 public interface OnUnitMorphListener extends GameEventListener {

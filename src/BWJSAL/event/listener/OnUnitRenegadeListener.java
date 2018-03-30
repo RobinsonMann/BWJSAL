@@ -3,7 +3,7 @@ package BWJSAL.event.listener;
 import bwapi.Unit;
 
 /**
- * The listener interface for receiving notification of game onUnitRenegade events.
+ * The listener interface for receiving bot.notification of game onUnitRenegade events.
  * Any classes that are interested in monitoring onUnitRenegade events should implement this interface.
  */
 public interface OnUnitRenegadeListener extends GameEventListener {

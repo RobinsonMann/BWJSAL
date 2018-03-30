@@ -1,7 +1,7 @@
 package BWJSAL.event.listener;
 
 /**
- * The listener interface for receiving notification of game onSaveGame events.
+ * The listener interface for receiving bot.notification of game onSaveGame events.
  * Any classes that are interested in monitoring onSaveGame events should implement this interface.
  */
 public interface OnSaveGameListener extends GameEventListener {

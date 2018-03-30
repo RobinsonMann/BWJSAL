@@ -3,7 +3,7 @@ package BWJSAL.event.listener;
 import bwapi.Unit;
 
 /**
- * The listener interface for receiving notification of game onUnitEvade events.
+ * The listener interface for receiving bot.notification of game onUnitEvade events.
  * Any classes that are interested in monitoring onUnitEvade events should implement this interface.
  */
 public interface OnUnitEvadeListener extends GameEventListener {

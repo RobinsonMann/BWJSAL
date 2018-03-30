@@ -1,7 +1,7 @@
 package BWJSAL.event.listener;
 
 /**
- * The listener interface for receiving notification of game onEnd events.
+ * The listener interface for receiving bot.notification of game onEnd events.
  * Any classes that are interested in monitoring onEnd events should implement this interface.
  */
 public interface OnEndListener extends GameEventListener {

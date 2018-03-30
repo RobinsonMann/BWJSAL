@@ -3,7 +3,7 @@ package BWJSAL.event.listener;
 import bwapi.Unit;
 
 /**
- * The listener interface for receiving notification of game onUnitComplete events.
+ * The listener interface for receiving bot.notification of game onUnitComplete events.
  * Any classes that are interested in monitoring onUnitComplete events should implement this interface.
  */
 public interface OnUnitCompleteListener extends GameEventListener {

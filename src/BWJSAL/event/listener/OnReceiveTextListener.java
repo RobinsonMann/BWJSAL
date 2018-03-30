@@ -3,7 +3,7 @@ package BWJSAL.event.listener;
 import bwapi.Player;
 
 /**
- * The listener interface for receiving notification of game onReceiveText events.
+ * The listener interface for receiving bot.notification of game onReceiveText events.
  * Any classes that are interested in monitoring onReceiveText events should implement this interface.
  */
 public interface OnReceiveTextListener extends GameEventListener {

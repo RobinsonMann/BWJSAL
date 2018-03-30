@@ -6,6 +6,7 @@ import bwapi.Game;
 import bwapi.TilePosition;
 import bwapi.Position;
 import bwapi.Unit;
+import bwapi.UnitType;
 import bwta.BaseLocation;
 
 /**

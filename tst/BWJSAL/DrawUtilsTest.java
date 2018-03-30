@@ -5,7 +5,9 @@ import bwapi.Color;
 import bwapi.CoordinateType.Enum;
 import bwapi.Game;
 import bwapi.Position;
+import bwapi.Mirror;
 import bwapi.Unit;
+import bwapi.UnitType;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -13,6 +15,21 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
 
+import java.io.BufferedInputStream;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.lang.reflect.Field;
+import java.net.URLDecoder;
+import java.util.Enumeration;
+import java.util.Hashtable;
+import java.util.zip.ZipEntry;
+import java.util.zip.ZipFile;
+import java.util.zip.ZipInputStream;
+
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 import static org.mockito.Mockito.any;
@@ -52,6 +69,106 @@ public class DrawUtilsTest {
 
         when(position.getX()).thenReturn(POSITION_X);
         when(position.getY()).thenReturn(POSITION_Y);
+    }
+
+    private static class JarResources {
+        public boolean debugOn = false;
+        private Hashtable htSizes = new Hashtable();
+        private Hashtable htJarContents = new Hashtable();
+        private String jarFileName;
+
+        public JarResources(String var1) {
+            this.jarFileName = var1;
+            this.init();
+        }
+
+        public byte[] getResource(String var1) {
+            return (byte[])((byte[])this.htJarContents.get(var1));
+        }
+
+        private void init() {
+            try {
+                ZipFile var1 = new ZipFile(this.jarFileName);
+
+                ZipEntry var3;
+                for(Enumeration var2 = var1.entries(); var2.hasMoreElements(); this.htSizes.put(var3.getName(), new Integer((int)var3.getSize()))) {
+                var3 = (ZipEntry)var2.nextElement();
+                    if(this.debugOn) {
+                        System.out.println(this.dumpZipEntry(var3));
+                    }
+                }
+
+                var1.close();
+                FileInputStream var14 = new FileInputStream(this.jarFileName);
+                BufferedInputStream var4 = new BufferedInputStream(var14);
+                ZipInputStream var5 = new ZipInputStream(var4);
+                ZipEntry var6 = null;
+
+                while(true) {
+                    do {
+                        if((var6 = var5.getNextEntry()) == null) {
+                            return;
+                        }
+                    } while(var6.isDirectory());
+
+                    if(this.debugOn) {
+                        System.out.println("ze.getName()=" + var6.getName() + "," + "getSize()=" + var6.getSize());
+                    }
+
+                    int var7 = (int)var6.getSize();
+                    if(var7 == -1) {
+                        var7 = ((Integer)this.htSizes.get(var6.getName())).intValue();
+                    }
+
+                    byte[] var8 = new byte[var7];
+                    int var9 = 0;
+
+                    int var15;
+                    for(boolean var10 = false; var7 - var9 > 0; var9 += var15) {
+                        var15 = var5.read(var8, var9, var7 - var9);
+                        if(var15 == -1) {
+                            break;
+                        }
+                    }
+
+                    this.htJarContents.put(var6.getName(), var8);
+                    if(this.debugOn) {
+                        System.out.println(var6.getName() + "  rb=" + var9 + ",size=" + var7 + ",csize=" + var6.getCompressedSize());
+                    }
+                }
+            } catch (NullPointerException var11) {
+                System.out.println("done.");
+            } catch (FileNotFoundException var12) {
+                var12.printStackTrace();
+            } catch (IOException var13) {
+                var13.printStackTrace();
+            }
+
+        }
+
+        private String dumpZipEntry(ZipEntry var1) {
+            StringBuffer var2 = new StringBuffer();
+            if(var1.isDirectory()) {
+                var2.append("d ");
+            } else {
+                var2.append("f ");
+            }
+
+            if(var1.getMethod() == 0) {
+                var2.append("stored   ");
+            } else {
+                var2.append("defalted ");
+            }
+
+            var2.append(var1.getName());
+            var2.append("\t");
+            var2.append("" + var1.getSize());
+            if(var1.getMethod() == 8) {
+                var2.append("/" + var1.getCompressedSize());
+            }
+
+            return var2.toString();
+        }
     }
 
     @Test

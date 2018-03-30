@@ -5,6 +5,11 @@ import bwapi.TilePosition;
 import bwapi.Unit;
 import bwapi.UnitType;
 
+import javax.inject.Inject;
+import javax.inject.Singleton;
+
+import java.util.Arrays;
+
 import static BWJSAL.ExceptionUtils.NonNullUtil.nonNull;
 
 /**
@@ -25,7 +30,7 @@ public class ReservedMap {
      *
      * If (x,y) is set to null, the position is not reserved. If set to any other unit type, the position is reserved.
      **/
-    private final UnitType[][] reservedMap;
+    public final UnitType[][] reservedMap;
 
     private final Game game;
 
@@ -46,22 +51,22 @@ public class ReservedMap {
     /**
      * Reserve the given tile position for UnitType.None.
      */
-    public void reserveTiles(final TilePosition position) {
-        reserveTiles(position, DEFAULT_RESERVE_TYPE);
+    public void reserveTiles(final TilePosition tilePosition) {
+        reserveTiles(tilePosition, DEFAULT_RESERVE_TYPE);
     }
 
     /**
      * Reserve a rectangle of tile positions starting at given tile position for UnitType.None.
      */
-    public void reserveTiles(final TilePosition position, final int width, final int height) {
-        reserveTiles(position, DEFAULT_RESERVE_TYPE, width, height);
+    public void reserveTiles(final TilePosition tilePosition, final int width, final int height) {
+        reserveTiles(tilePosition, DEFAULT_RESERVE_TYPE, width, height);
     }
 
     /**
      * Reserve the given tile position (give as (x,y) coordinate) for UnitType.None.
      */
     public void reserveTiles(final int positionX, final int positionY) {
-        reserveTiles(positionX, positionY, DEFAULT_RESERVE_TYPE, 1, 1);
+        reserveTiles(positionX, positionY, DEFAULT_RESERVE_TYPE);
     }
 
     /**
@@ -74,17 +79,17 @@ public class ReservedMap {
     /**
      * Reserve the given tile position for given unit type.
      */
-    public void reserveTiles(final TilePosition position, final UnitType type) {
-        nonNull(position, "position");
-        reserveTiles(position.getX(), position.getY(), type, 1, 1);
+    public void reserveTiles(final TilePosition tilePosition, final UnitType type) {
+        nonNull(tilePosition, "tilePosition");
+        reserveTiles(tilePosition.getX(), tilePosition.getY(), type);
     }
 
     /**
      * Reserve a rectangle of tile positions starting at given tile position for given unit type.
      */
-    public void reserveTiles(final TilePosition position, final UnitType type, final int width, final int height) {
-        nonNull(position, "position");
-        reserveTiles(position.getX(), position.getY(), type, width, height);
+    public void reserveTiles(final TilePosition tilePosition, final UnitType type, final int width, final int height) {
+        nonNull(tilePosition, "tilePosition");
+        reserveTiles(tilePosition.getX(), tilePosition.getY(), type, width, height);
     }
 
     /**
@@ -152,12 +157,50 @@ public class ReservedMap {
         return this.reservedMap[x][y] != null;
     }
 
+
+    /**
+     * Returns true if any of the tile positions starting at given tile position (as x,y coordinates) are reserved for construction.
+     */
+    public boolean isReserved(final int x, final int y, final int width, final int height) {
+        final int maxX = x + width;
+        final int maxY = y + height;
+
+        for (int xIterator = x; xIterator < maxX; xIterator++) {
+            for (int yIterator = y; yIterator < maxY; yIterator++) {
+                if  (isReserved(xIterator, yIterator)) {
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+
     /**
      * Returns true if the given tile position is reserved for construction.
      */
     public boolean isReserved(final TilePosition tilePosition) {
         nonNull(tilePosition, "tilePosition");
-        return this.reservedMap[tilePosition.getX()][tilePosition.getY()] != null;
+        return isReserved(tilePosition.getX(), tilePosition.getY());
+    }
+
+    /**
+     * Returns true if any of the tile positions starting at given tile position are reserved for construction.
+     */
+    public boolean isReserved(final TilePosition tilePosition, final int width, final int height) {
+        nonNull(tilePosition, "tilePosition");
+        return isReserved(tilePosition.getX(), tilePosition.getY(), width, height);
+    }
+
+
+    public boolean canBuildHere(final TilePosition position, final UnitType typeToBuild) {
+        nonNull(position, "position");
+        nonNull(typeToBuild, "typeToBuild");
+
+        if (this.game.canBuildHere(position, typeToBuild) == false) {
+            return false;
+        }
+
+        return !isReserved(position, typeToBuild.tileWidth(), typeToBuild.tileHeight());
     }
 
     /**
@@ -173,18 +216,7 @@ public class ReservedMap {
             return false;
         }
 
-        final int xMax = position.getX() + typeToBuild.tileWidth();
-        final int yMax = position.getY() + typeToBuild.tileHeight();
-
-        for (int x = position.getX(); x < xMax; x++) {
-            for (int y = position.getY(); y < yMax; y++) {
-                if  (this.reservedMap[x][y] != null) {
-                    return false;
-                }
-            }
-        }
-
-        return true;
+        return !isReserved(position, typeToBuild.tileWidth(), typeToBuild.tileHeight());
     }
 
     /**

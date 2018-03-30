@@ -1,7 +1,7 @@
 package BWJSAL.event.listener;
 
 /**
- * The listener interface for receiving notification of game onStart events.
+ * The listener interface for receiving bot.notification of game onStart events.
  * Any classes that are interested in monitoring onStart events should implement this interface.
  */
 public interface OnStartListener extends GameEventListener {

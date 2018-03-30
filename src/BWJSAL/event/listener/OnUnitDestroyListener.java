@@ -3,7 +3,7 @@ package BWJSAL.event.listener;
 import bwapi.Unit;
 
 /**
- * The listener interface for receiving notification of game onUnitDestroy events.
+ * The listener interface for receiving bot.notification of game onUnitDestroy events.
  * Any classes that are interested in monitoring onUnitDestroy events should implement this interface.
  */
 public interface OnUnitDestroyListener extends GameEventListener {

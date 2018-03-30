@@ -3,7 +3,7 @@ package BWJSAL.event.listener;
 import bwapi.Position;
 
 /**
- * The listener interface for receiving notification of game onNukeDetect events.
+ * The listener interface for receiving bot.notification of game onNukeDetect events.
  * Any classes that are interested in monitoring onNukeDetect events should implement this interface.
  */
 public interface OnNukeDetectListener extends GameEventListener {
